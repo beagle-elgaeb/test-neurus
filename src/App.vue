@@ -1,11 +1,17 @@
 <script setup>
-import Header from "./components/Header.vue";
-import Main from "./components/Main.vue";
+import Session from "./components/Session.vue";
+import { store } from "./store";
+
+// Отбираем уникальные сессии из событий турникетов
+const sessionIds = new Set(store.getters.sessionIds);
 </script>
 
 <template>
-  <Header />
-  <Main />
+  <Session
+    v-for="(sessionId, index) in sessionIds"
+    :key="index"
+    :sessionId="sessionId"
+  />
 </template>
 
 <style>
@@ -13,8 +19,6 @@ import Main from "./components/Main.vue";
   width: 95%;
   max-width: 700px;
   min-width: 280px;
-  border: 2px solid #ca29e4;
-  border-radius: 20px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

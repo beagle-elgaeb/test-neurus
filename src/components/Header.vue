@@ -1,54 +1,27 @@
-<script>
-import format from "date-fns/format";
-import trunstileEvents from "../store/trunstile-events.json";
+<script setup>
 import edit from "../icons/edit.svg";
 import menu from "../icons/menu.svg";
+import { tooltips } from "../utils";
 
-const firstID = trunstileEvents[0].id;
-
-const timestampOpen = trunstileEvents[0].timestamp;
-const timeOpen = format(new Date(timestampOpen), "HH:mm:ss");
-
-const firstSessonID = trunstileEvents[0].sessionId;
-
-
-
-const timestampClose = trunstileEvents.timestamp;
-const timeClose = format(new Date(timestampClose), "HH:mm:ss");
-
-const Header = {
-  data() {
-    return {
-      sessionId: firstID,
-      sessionOpenTime: timeOpen,
-      sessionCloseTime: timeClose,
-    };
-  },
-};
-
-export default Header;
+const props = defineProps({
+  date: String,
+  timeOpen: String,
+  timeExit: String,
+});
 </script>
 
 <template>
-  <header class="header">
+  <div class="header">
     <div class="user_avatar"></div>
     <div class="id_and_text">
-      <p class="id">{{ session }}</p>
-      <p class="header_text">{{ sessionOpenTime }} - 14:40:17</p>
+      <p class="id">{{ props.date }}</p>
+      <p class="header_text">{{ props.timeOpen }} - {{ props.timeExit }}</p>
     </div>
     <div class="id_and_text">
-      <p class="id">1234567</p>
-      <p class="header_text">Номер карты ВВ</p>
+      <p class="id">3723022</p>
+      <p class="header_text">Карта ВВ</p>
     </div>
-    <div class="buttons">
-      <button class="button" type="button">
-        <img class="button_img" :src="edit" />
-      </button>
-      <button class="button" type="button">
-        <img class="button_img" :src="menu" />
-      </button>
-    </div>
-  </header>
+  </div>
 </template>
 
 <style scoped>
@@ -56,11 +29,10 @@ export default Header;
   height: 50px;
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: #fef6ff;
-  border-start-start-radius: 20px;
   border-start-end-radius: 20px;
+  border-start-start-radius: 20px;
 }
 
 .user_avatar {
@@ -71,9 +43,13 @@ export default Header;
   margin: 0 0 0 15px;
 }
 
+.id_and_text {
+  margin: 0 0 0 10%;
+}
+
 .id {
-  font-size: 16px;
-  line-height: 18px;
+  font-size: 18px;
+  line-height: 20px;
   font-weight: 600;
   color: #808080;
   margin: 0;
@@ -87,19 +63,21 @@ export default Header;
   margin: 0;
 }
 
-.button {
-  height: 35px;
-  width: 35px;
-  background: transparent;
-  border: none;
-  outline: none;
-  margin: 0 15px 0 0;
-  padding: 0;
-}
+@media (max-width: 500px) {
+  .user_avatar {
+    height: 30px;
+    width: 30px;
+    margin: 0 0 0 10px;
+  }
 
-.button_img {
-  height: 20px;
-  width: 20px;
-  margin: auto;
+.id {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .header_text {
+    font-size: 14px;
+    line-height: 16px;
+  }
 }
 </style>
