@@ -6,6 +6,7 @@ const props = defineProps({
   timeOpen: String,
   timeExit: String,
   name: String,
+  saved: Boolean,
 });
 </script>
 
@@ -16,8 +17,10 @@ const props = defineProps({
       <p class="time" v-if="name === 'Вход'">{{ timeOpen }}</p>
       <p class="time" v-else>{{ timeExit }}</p>
     </div>
-
-    <button class="button" v-bind:title="tooltips.changeSession">
+    <button
+      :class="[props.saved ? 'button_saved' : 'button']"
+      v-bind:title="tooltips.changeSession"
+    >
       <img class="button_img" :src="sessions" />
     </button>
   </div>
@@ -31,8 +34,6 @@ const props = defineProps({
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #c0c0c0;
-  border-top: 1px solid #c0c0c0;
 }
 
 .text {
@@ -62,8 +63,12 @@ const props = defineProps({
   background: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
   margin: 0 17.5px 0 0;
   padding: 0;
+}
+.button_saved {
+  display: none;
 }
 
 .button_img {

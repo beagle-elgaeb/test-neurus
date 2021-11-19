@@ -1,85 +1,111 @@
 <script setup>
 import format from "date-fns/format";
+import { tooltips } from "../utils";
 import Header from "./Header.vue";
 import OpenExit from "./OpenExit.vue";
 import Products from "./Products.vue";
-import { tooltips } from "../utils";
+import ProductsPopup from "./ProductsPopup.vue";
 import { store } from "../store";
 
 const props = defineProps({
-  sessionId: String,
+  session: Object,
 });
 
-const emptyString = "";
+const nullString = "_";
 
 let date;
 
-// Получение времени входа
-let timeOpen = emptyString;
-let timeOpenShort = emptyString;
+// ---------------------------------------------------- Получение времени входа
+let timeOpen = nullString;
+let timeOpenShort = nullString;
 
-if (store.getters.sessionOpen(props.sessionId)) {
-  const timestampOpen = store.getters.sessionOpen(props.sessionId).timestamp;
+if (props.session.sessionOpen) {
+  const timestampOpen = props.session.sessionOpen;
 
   timeOpen = format(new Date(timestampOpen * 1000), "HH:mm:ss");
-  timeOpenShort = format(new Date(timestampOpen * 1000), "HH:mm");
   date = format(new Date(timestampOpen * 1000), "dd.MM.yyyy");
 }
-// Получение времени выхода
-let timeExit = emptyString;
-let timeExitShort = emptyString;
 
-if (store.getters.sessionExit(props.sessionId)) {
-  const timestampExit = store.getters.sessionExit(props.sessionId).timestamp;
+// --------------------------------------------------- Получение времени выхода
+let timeExit = nullString;
+let timeExitShort = nullString;
+
+if (props.session.sessionExit) {
+  const timestampExit = props.session.sessionExit;
 
   timeExit = format(new Date(timestampExit * 1000), "HH:mm:ss");
-  timeExitShort = format(new Date(timestampExit * 1000), "HH:mm");
   date = format(new Date(timestampExit * 1000), "dd.MM.yyyy");
 }
 </script>
 
 <template>
-  <main class="main">
+  <main
+    class="main"
+    :class="[props.session.saved ? 'main_saved' : 'main_unsaved']"
+  >
     <Header
       :date="date"
       :timeOpen="timeOpen"
-      :timeOpenShort="timeOpenShort"
       :timeExit="timeExit"
-      :timeExitShort="timeExitShort"
+      :saved="props.session.saved"
     />
-    <OpenExit v-if="!timeOpen" :timeOpen="emptyString" name="Вход" />
-    <OpenExit v-else :timeOpen="timeOpen" name="Вход" />
-    <Products :sessionId="props.sessionId" />
-    <OpenExit v-if="!timeExit" :timeExit="emptyString" name="Выход" />
-    <OpenExit v-else :timeExit="timeExit" name="Выход" />
+    <OpenExit :timeOpen="timeOpen" name="Вход" :saved="props.session.saved" />
+    <Products
+      :products="props.session.products"
+      :sessionId="props.session.sessionId"
+      :saved="props.session.saved"
+    />
+    <OpenExit :timeExit="timeExit" name="Выход" :saved="props.session.saved" />
 
-    <div class="buttons">
-      <button class="button button_add" v-bind:title="tooltips.addProduct">
+    <div :class="[props.session.saved ? 'buttons_saved' : 'buttons']">
+      <button
+        class="button button_add"
+        v-on:click="
+          store.commit('openClosePopupProductsPopup', {
+            sessionId: props.session.sessionId,
+          })
+        "
+        v-bind:title="tooltips.addProduct"
+      >
         Добавить продукт
       </button>
-      <button class="button button_save" v-bind:title="tooltips.saveSession">
+      <button
+        class="button button_save"
+        v-on:click="
+          store.commit('saveSession', {
+            sessionId: props.session.sessionId,
+          })
+        "
+        v-bind:title="tooltips.saveSession"
+      >
         Сохранить
       </button>
     </div>
   </main>
+  <ProductsPopup :session="props.session" />
 </template>
-
-
-
-
 
 <style scoped>
 .main {
   width: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  border: 2px solid #ca29e4;
   border-radius: 20px;
   justify-content: space-between;
   align-items: center;
   background: #ffffff;
   border-radius: 20px;
-  margin: 0 0 10px 0;
+  margin: 0 0 20px 0;
+}
+
+.main_saved {
+  border-left: 5px solid #307df7;
+  border-bottom: 2px solid #307df7;
+}
+
+.main_unsaved {
+  border: 2px solid #ca29e4;
 }
 
 .buttons {
@@ -88,8 +114,13 @@ if (store.getters.sessionExit(props.sessionId)) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid #c0c0c0;
   border-end-end-radius: 20px;
   border-end-start-radius: 20px;
+}
+
+.buttons_saved {
+  display: none;
 }
 
 .button {
@@ -100,6 +131,7 @@ if (store.getters.sessionExit(props.sessionId)) {
   font-size: 18px;
   line-height: 20px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .button_add {
@@ -141,6 +173,21 @@ if (store.getters.sessionExit(props.sessionId)) {
 
   .button_save {
     margin: 0 10px 0 0;
+  }
+}
+
+@media (max-width: 350px) {
+  .button {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .button_add {
+    width: 55%;
+  }
+
+  .button_save {
+    width: 33%;
   }
 }
 </style>

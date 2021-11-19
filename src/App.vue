@@ -1,16 +1,13 @@
 <script setup>
 import Session from "./components/Session.vue";
 import { store } from "./store";
-
-// Отбираем уникальные сессии из событий турникетов
-const sessionIds = new Set(store.getters.sessionIds);
 </script>
 
 <template>
   <Session
-    v-for="(sessionId, index) in sessionIds"
+    v-for="(session, index) in store.getters.sessions"
     :key="index"
-    :sessionId="sessionId"
+    :session="session"
   />
 </template>
 

@@ -5,39 +5,67 @@ import { tooltips } from "../utils";
 import { store } from "../store";
 
 const props = defineProps({
+  product: Object,
   sessionId: String,
-  product: String,
+  saved: Boolean,
 });
 
-let count = 0;
-
-const counts = store.getters
-  .productEvents(props.sessionId, props.product, count)
-  .map((event) => {
-    count = count + event.productCount;
+function increment() {
+  store.commit("increment", {
+    sessionId: props.sessionId,
+    product: props.product,
   });
+}
+
+function decrement() {
+  store.commit("decrement", {
+    sessionId: props.sessionId,
+    product: props.product,
+  });
+}
+
+function deleteProduct() {
+  store.commit("deleteProduct", {
+    sessionId: props.sessionId,
+    product: props.product,
+  });
+}
 </script>
 
 <template>
   <div class="product">
-    <p class="product_name">{{ product }}</p>
+    <p class="product_name">{{ props.product.name }}</p>
     <div class="count_and_buttons">
       <button
-        class="button button_delete"
+        :class="[props.saved ? 'button_saved' : 'button button_delete']"
         type="button"
+        v-on:click="deleteProduct"
         v-bind:title="tooltips.deleteProduct"
       >
         <img class="button_img" :src="trash" />
       </button>
-      <button class="button button_change_count" v-on:click="count -= 1">
+      <button
+        :class="[props.saved ? 'button_saved' : 'button button_change_count']"
+        v-on:click="decrement"
+      >
         –
       </button>
-      <p class="product_count">{{ -count }}</p>
-      <button class="button button_change_count" v-on:click="count += 1">
+      <p
+        :class="[
+          props.saved ? 'product_count product_count_saved' : 'product_count',
+        ]"
+      >
+        {{ props.product.count }}
+      </p>
+      <button
+        :class="[props.saved ? 'button_saved' : 'button button_change_count']"
+        v-on:click="increment"
+      >
         +
       </button>
       <button
-        class="button button_change_session"
+      class="drag_handle"
+        :class="[props.saved ? 'button_saved' : 'button button_change_session']"
         v-bind:title="tooltips.changeSession"
       >
         <img class="button_img" :src="sessions" />
@@ -78,13 +106,23 @@ const counts = store.getters
   text-align: center;
 }
 
+.product_count_saved {
+  width: 40px;
+  font-weight: 600;
+}
+
 .button {
   height: 30px;
   width: 30px;
   background: transparent;
   border: none;
   outline: none;
+  cursor: pointer;
   padding: 0;
+}
+
+.button_saved {
+  display: none;
 }
 
 .button_delete {
