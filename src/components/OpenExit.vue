@@ -17,12 +17,6 @@ const props = defineProps({
       <p class="time" v-if="name === 'Вход'">{{ timeOpen }}</p>
       <p class="time" v-else>{{ timeExit }}</p>
     </div>
-    <button
-      :class="[props.saved ? 'button_saved' : 'button']"
-      v-bind:title="tooltips.changeSession"
-    >
-      <img class="button_img" :src="sessions" />
-    </button>
   </div>
 </template>
 

@@ -8,11 +8,21 @@ const props = defineProps({
   saved: Boolean,
 });
 
+let target = false;
+
+function mouseDown(evt) {
+  target = evt.target;
+}
+
 function startDrag(evt, index) {
-  evt.dataTransfer.dropEffect = "move";
-  evt.dataTransfer.effectAllowed = "move";
-  evt.dataTransfer.setData("productIndex", index);
-  evt.dataTransfer.setData("sessionId", props.sessionId);
+  if (target.classList.contains("drag_handle")) {
+    evt.dataTransfer.dropEffect = "move";
+    evt.dataTransfer.effectAllowed = "move";
+    evt.dataTransfer.setData("productIndex", index);
+    evt.dataTransfer.setData("sessionId", props.sessionId);
+  } else {
+    evt.preventDefault();
+  }
 }
 </script>
 
@@ -39,6 +49,7 @@ function startDrag(evt, index) {
         :sessionId="props.sessionId"
         :saved="props.saved"
         @dragstart="startDrag($event, index)"
+        @mousedown="mouseDown($event)"
         draggable="true"
       />
     </div>

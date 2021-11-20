@@ -1,5 +1,4 @@
 <script setup>
-import sessions from "../icons/sessions.svg";
 import trash from "../icons/trash.svg";
 import { tooltips } from "../utils";
 import { store } from "../store";
@@ -64,12 +63,10 @@ function deleteProduct() {
         +
       </button>
       <button
-      class="drag_handle"
+        class="drag_handle"
         :class="[props.saved ? 'button_saved' : 'button button_change_session']"
         v-bind:title="tooltips.changeSession"
-      >
-        <img class="button_img" :src="sessions" />
-      </button>
+      ></button>
     </div>
   </div>
 </template>
@@ -138,6 +135,11 @@ function deleteProduct() {
 }
 
 .button_change_session {
+  background: url(../icons/sessions.svg);
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: move;
   margin: 0 2.5px 0 10px;
 }
 

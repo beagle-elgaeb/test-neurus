@@ -92,7 +92,16 @@ export const store = createStore({
 
       const productIndex = payload.evt.dataTransfer.getData("productIndex");
       const [product] = startList.products.splice(productIndex, 1);
-      stopList.products.splice(-1, 0, product);
+
+      const sameProduct = stopList.products.find(
+        (item) => item.name === product.name
+      );
+
+      if (!sameProduct) {
+        stopList.products.splice(-1, 0, product);
+      } else {
+        sameProduct.count = sameProduct.count + product.count;
+      }
     },
 
     saveSession(state, payload) {

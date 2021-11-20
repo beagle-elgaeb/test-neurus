@@ -1,54 +1,50 @@
 # Тестовое задание от --НАЗВАНИЕ ОРГАНИЗАЦИИ--
 
-[Вакансия](Ссылка "Наименование вакансии")  
-[Задание](Ссылка "Задание")  
-_[Ссылка на приложение](Ссылка "Приложение")_
+[Вакансия](https://hh.ru/vacancy/49507551 "Junior Frontend-разработчик в AI")  
+[Задание](https://s.neurus.ru/vuejstesttask1 "Задание")  
+_[Ссылка на приложение](https://beagle-elgaeb.github.io/test-neurus/ "Приложение")_
 
 <p>
   <a href="https://developer.mozilla.org/ru/docs/Web/CSS"><img src="readme/icon-css3.svg" alt="CSS3"></a>
     <img src="readme/icon-whitespace-5px.svg"/>
   <a href="https://developer.mozilla.org/ru/docs/Glossary/HTML5"><img src="readme/icon-html5.svg" alt="HTML5"></a>
     <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://ru.bem.info/"><img src="readme/icon-bem.svg" alt="БЭМ"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
   <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript"><img src="readme/icon-js.svg" alt="JS"></a>
     <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://www.typescriptlang.org/"><img src="readme/icon-ts.svg" alt="TS"></a>
+  <a href="https://v3.ru.vuejs.org/"><img src="readme/icon-vue.svg" alt="Vue"></a>
     <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://ru.reactjs.org/"><img src="readme/icon-react.svg" alt="React"></a>
+  <a href="https://next.vuex.vuejs.org/"><img src="readme/icon-vuex.svg" alt="Vuex"></a>
     <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://redux.js.org/"><img src="readme/icon-redux.svg" alt="Redux"></a>
+  <!--
+  <a href="https://vitejs.dev/guide/"><img src="readme/icon-vite.svg" alt="Vite"></a> 
     <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://npmjs.com/"><img src="readme/icon-npm.svg" alt="NPM"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
+  -->
   <a href="https://yarnpkg.com/"><img src="readme/icon-yarn.svg" alt="Yarn"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://webpack.js.org/"><img src="readme/icon-webpack.svg" alt="WebPack"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://ru.wikipedia.org/wiki/REST"><img src="readme/icon-api.svg" alt="REST API"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://nodejs.org/ru/docs/"><img src="readme/icon-node.svg" alt="NodeJS"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://expressjs.com/ru/"><img src="readme/icon-express.svg" alt="ExpressJS"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://www.mongodb.com/"><img src="readme/icon-mongo.svg" alt="MongoDB"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://habr.com/ru/post/564390/"><img src="readme/icon-sql.svg" alt="SQL"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://www.postgresql.org/"><img src="readme/icon-pg.svg" alt="PostgreSQL"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://formik.org/"><img src="readme/icon-formik.svg" alt="Formik"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://styled-components.com/"><img src="readme/icon-styled-components.svg" alt="Styled-components"></a>
-    <img src="readme/icon-whitespace-5px.svg"/>
-  <a href="https://www.chartjs.org/"><img src="readme/icon-chart.svg" alt="ChartJs"></a>
-
 </p>
 
 ## Задание
 
-Задание.  
-_[Макет](Ссылка "Ссылка на Фигму")_
+1. Реализовать хранилище `Vuex`, в котором будут храниться товары из приложенного файла, сгруппированные по id сессии
+2. Создать простой пользовательский интерфейс, показывающий сессии, каждая сессия одна за другой
+3. В этом пользовательском интерфейсе должна быть возможность:
+
+- изменить количество конкретных продуктов
+- удалить продукт из списка
+- добавить новый продукт
+- изменить сеанс продукта
+
+4. Сделать возможным отправить сеанс (отметить его как отправленный в `vuex` и сделать невозможным его последующее изменение)
+
+#### Теоретические вопросы
+
+- В производстве у нас было бы 100 тысяч событий в день, как вы предлагаете работать с этим объемом данных?
+- Как вы можете предложить использовать здесь веб-сокеты?
+  Если речь о клиенте конкретного пользователя, а ему должны приходить только его собственные события, а это значительно меньшее количество операций.  
+  Но в случае, если компьютерное видение может записывать много лишних операций, разумно делать первичную обработку событий на сервере. А на фронтенде делать отложенную на пару секунд отрисовку (с помощью веб-сокетов), чтобы успевало накапливаться какое-то разумное количество уже подготовленных данных.  
+  Также стоит сделать для пользователя онлайн изменение списка товаров и сесий, принимаемых с помощью веб-сокетов.
+
+- Какие оптимизации vue, по вашему мнению, важно учитывать?
+  Вероятно было бы полезно замораживать списки товаров после их сохранения (Object.freeze).
 
 ### Задачи проекта
 
@@ -59,24 +55,16 @@ _[Макет](Ссылка "Ссылка на Фигму")_
 В соответствии с заданием.  
 Также:
 
-- что;
-- ещё;
-- проработан UX (при отправке данных на сервер меняется состояние кнопки);
-- используется css-in-js библиотека [styled-components](https://styled-components.com/ "Документация");
-- [страница размещена на GitHub Pages](ссылка "Выполненое тестовое задание");
-- страница адаптируется в пределах 700-1334px.
+- [страница размещена на GitHub Pages](https://beagle-elgaeb.github.io/test-neurus/ "Выполненое тестовое задание");
+- страница адаптируется в пределах 280-700px.
 
 ## Возможные улучшения
 
-- возможные;
-- улучшения.
+- не предполагаются.
 
 ## Директории
 
 - `/src` — рабочая папка проекта;
-- `/routes` — папка с файлами роутера;
-- `/controllers` — папка с файлами контроллеров пользователя и карточки;
-- `/models` — папка с файлами описания схем пользователя и карточки;
 - `/readme` — папка с иконками стека;
 - остальные директории вспомогательные, создаются при необходимости разработчиком.
 
@@ -85,16 +73,13 @@ _[Макет](Ссылка "Ссылка на Фигму")_
 Установка сопутствующих библиотек:  
 `yarn`
 
-Сборка фронтенда:  
-`yarn build`
-
-Локальный запуск бэкенда и фронтенда:  
-`yarn start`
-
-Запуск бэкенда с hot-reload:  
+Локальный запуск приложения:  
 `yarn dev`
 
-Деплой фронтенда на GH Pages:  
+Сборка приложения:  
+`yarn build`
+
+Деплой приложения на GH Pages:  
 `yarn deploy`
 
 ---
